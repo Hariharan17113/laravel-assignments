@@ -27,19 +27,13 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Name:</strong>
-                    <input type="text" name="name" value="{{ $post->name }}" class="form-control" placeholder="Title">
+                    <input type="text" name="name" value="{{ $post->title }}" class="form-control" placeholder="Title">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Email:</strong>
-                    <input type="text" name="email" value="{{ $post->email }}" class="form-control" placeholder="Title">
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Role:</strong>
-                    <input type="text" name="role" value="{{ $post->role }}" class="form-control" placeholder="Title">
+                    <input type="text" name="email" value="{{ $post->description }}" class="form-control" placeholder="Title">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">

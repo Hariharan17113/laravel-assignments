@@ -39,13 +39,10 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'role' => 'required',
+            'title' => 'required',
+            'description' => 'required',
         ]);
-
         Post::create($request->all());
-
         return redirect()->route('posts.index');
     }
 
@@ -81,9 +78,8 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-            'role' => 'required',
+            'title' => 'required',
+            'description' => 'required',
         ]);
 
         $post->update($request->all());
