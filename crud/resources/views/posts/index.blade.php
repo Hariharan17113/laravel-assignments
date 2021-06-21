@@ -13,7 +13,7 @@
                 <th>Id</th>
                 <th>Title</th>
                 <th>Description</th>
-                <th>Comments</th>
+                <th>Tags</th>
                 <th width="280px">Action</th>
             </tr>
             @foreach ($data as $key => $value)
@@ -21,7 +21,11 @@
                     <td>{{ ++$i }}</td>
                     <td>{{ $value->title }}</td>
                     <td>{{ $value->description }}</td>
-                    <td>{{ $value->comments[0]->comments }}</td>
+                    <td>
+                        @foreach($value->tags as $key => $tag)
+                            {{ $tag->tags }}
+                        @endforeach
+                    </td>
                     <td>
                         <form method="POST">
                             <a href="{{ route('posts.show',$value->id) }}"><i class="fas fa-eye text-success  fa-lg"></i></a>

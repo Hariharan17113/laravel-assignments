@@ -16,9 +16,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        $data = Post::where('user_id','=',Auth::id())->with('Comments')->get();
-        $comment= $data;
-        return view('posts.index',compact('data','comment'))
+        $data = Post::where('user_id','=',Auth::id())->with('tags')->get();
+        $tags= $data;
+        return view('posts.index',compact('data','tags'))
             ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -111,12 +111,14 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'comments' => 'required'
         ]);
         $post->update($request->all());
         $id=$post->id;
-        Comment::where('post_id', $id)
-            ->update(['comments' => request('comments')]);
+        $tag=$request->input('tag');
+        Post::find($id)->tags()->detach();
+        foreach($tag as $key => $t){
+            Post::find($id)->tags()->attach(['tag_id' => Tag::where('tags',$t)->get('id')[0]["id"]]);
+        }
         return redirect()->route('posts.show',$id)
             ->with('success','Post created successfully.');
     }

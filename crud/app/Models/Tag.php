@@ -9,7 +9,7 @@ class Tag extends Model
 
     public function posts()
     {
-        return $this->belongsTo(Post::class);
+        return $this->belongsToMany(Post::class);
 
     }
     protected $fillable = [

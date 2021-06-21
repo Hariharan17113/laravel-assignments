@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,8 +18,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 Route::resource('posts',PostController::class);
-
-
+Route::post('/comments/{id}',[CommentController::class,'store'])->name('comments.store');
+Route::delete('/comments/{id}',[CommentController::class,'destroy'])->name('comments.destroy');
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
