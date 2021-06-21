@@ -14,14 +14,14 @@
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Name:</strong>
+                    <strong>Title:</strong>
                     {{ $post->title }}
                 </div>
             </div>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
-                <strong>Email:</strong>
+                <strong>Description:</strong>
                 {{ $post->description }}
             </div>
         </div>
@@ -50,13 +50,13 @@
                         <div class="row">
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
-                                    <strong>Name:</strong>
+                                    <strong>Title:</strong>
                                     <input type="text" name="name" value="{{ $post->title }}" class="form-control" placeholder="Enter name">
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-12 col-md-12">
                                 <div class="form-group">
-                                    <strong>Email:</strong>
+                                    <strong>Description:</strong>
                                     <input type="text" name="email" value="{{ $post->description }}" class="form-control" placeholder="example@email.com">
                                 </div>
                             </div>
@@ -74,31 +74,6 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         </div>
-        <script>
-                $(document).on('click', '#mediumButton', function(event) {event.preventDefault();
-                let href = $(this).attr('data-attr');
-                    $.ajax({
-                    url: href,
-                    beforeSend: function() {
-                        $('#loader').show();
-                    },
-                    // return the result
-                    success: function(result) {
-                        $('#mediumModal').modal("show");
-                        $('#mediumBody').html(result).show();
-                    },
-                    complete: function() {
-                        $('#loader').hide();
-                    },
-                    error: function(jqXHR, testStatus, error) {
-                        console.log(error);
-                        alert("Page " + href + " cannot open. Error:" + error);
-                        $('#loader').hide();
-                    },
-                        timeout: 8000
-                    })
-                });
-        </script>
     @else
         <a href=" {{ route('home') }}">Login and continue</a>
     @endif

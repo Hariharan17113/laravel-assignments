@@ -26,13 +26,13 @@
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Name:</strong>
+                    <strong>Title:</strong>
                     <input type="text" name="name" value="{{ $post->title }}" class="form-control" placeholder="Title">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Email:</strong>
+                    <strong>Description:</strong>
                     <input type="text" name="email" value="{{ $post->description }}" class="form-control" placeholder="Title">
                 </div>
             </div>
