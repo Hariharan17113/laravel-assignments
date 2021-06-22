@@ -7,12 +7,16 @@ use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    public function store(Request $request,$id){
+    /**
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store(Request $request, $id){
         $comments=$request->input('comments');
         Comment::create(['post_id'=> $id,'comments' => $comments]);
         return redirect()->back();
     }
-
     /**
      * @param $id
      * @param \App\Models\Comment $comment

@@ -1,16 +1,11 @@
 @extends('posts.layout')
-@section('content')
+@section('contents')
     <div class="col-md-12 margin-tb">
         <div class="pull-left">
             <h2> Show Post</h2>
         </div>
         <div class="pull-right">
-            <a class="btn btn-primary" href="
-            @if(Auth::check())
-            {{ route('posts.index') }}
-            @else
-            {{ route('welcome') }}
-            @endif">
+            <a class="btn btn-primary" href="{{ route('posts.index') }}">
                 <i class="fas fa-home"></i>
             </a>
         </div>
@@ -37,20 +32,22 @@
         <div class="col-md-12 form-group">
             <strong>Comments:</strong>
             @foreach($comment->comments as $key => $c)
-                <li style="padding-left: 20px">{{ $c->comments }}</li>
                 <form action="{{ route('comments.destroy',$c->id) }}" method="POST">
                     @csrf
                     @method('DELETE')
-                    <button id="mediumButton" type="submit" class="btn btn-danger">
+                    <div>
+                    <li style="padding-left: 20px">{{ $c->comments }}
+                    <button id="mediumButton" type="submit" class="btn btn-danger" style="margin-left: 20px">
                         <i class="fas fa-trash-alt"></i>
                     </button>
+                    </li></div>
                 </form>
             @endforeach
         </div>
         <div class="col-xs-12 col-sm-12 col-md-12">
             <form action="{{ route('posts.destroy',$post->id) }}" method="POST">
                 <a id="mediumButton" class="btn btn-primary" type="button" data-attr="{{ route('posts.edit', $post->id) }}" data-toggle="modal" data-target="#exampleModalLong">
-                    <i class="fas fa-edit  fa-lg"></i>
+                    <i class="fas fa-edit fa-lg"></i>
                 </a>
                 @csrf
                 @method('DELETE')

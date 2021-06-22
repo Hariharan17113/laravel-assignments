@@ -17,9 +17,13 @@ use App\Http\Controllers\CommentController;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::resource('posts',PostController::class);
-Route::post('/comments/{id}',[CommentController::class,'store'])->name('comments.store');
-Route::delete('/comments/{id}',[CommentController::class,'destroy'])->name('comments.destroy');
+Route::group(['middleware' => ['auth']], function() {
+    Route::resource('posts', PostController::class);
+    Route::post('/comments/{id}', [CommentController::class, 'store'])->name('comments.store');
+    Route::put('/comments/{id}', [CommentController::class, 'update'])->name('comments.update');
+    Route::get('/comments/{id}', [CommentController::class, 'edit'])->name('comments.edit');
+    Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
+});
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

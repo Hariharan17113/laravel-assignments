@@ -7,6 +7,7 @@ use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\DataTables;
 class PostController extends Controller
 {
     /**
@@ -14,12 +15,29 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
-        $data = Post::where('user_id','=',Auth::id())->with('tags')->get();
-        $tags= $data;
-        return view('posts.index',compact('data','tags'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+    public function index(Request $request){
+        if ($request->ajax()) {
+            $post = Post::where('user_id', '=', Auth::id())->with('tags')->get();
+            return Datatables::of($post)
+                ->addIndexColumn()
+                ->addColumn('title', function ($post) {
+                    return $post->title;
+                })
+                ->addColumn('description', function ($post) {
+                    return $post->description;
+                })
+                ->addColumn('tags', function ($post) {
+                    foreach ($post->tags as $key => $tag) {
+                        $tags[$key] = $tag->tags;
+                    }
+                    return $tags;
+                })
+                ->addColumn('action', function ($post) {
+                    return '<a href="posts/' . $post->id . '" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-eye"></i> Show</a>';
+                })
+                ->toJson();
+        }
+        return view('posts.index');
     }
 
     /**
