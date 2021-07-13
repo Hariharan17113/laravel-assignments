@@ -5,23 +5,8 @@
             <div class="pull-left">
                 <h2>Add New Post</h2>
             </div>
-            <div class="pull-right">
-                <a class="btn btn-primary" href="{{ route('posts.index') }}">
-                    <i class="fas fa-home"></i>
-                </a>
-            </div>
         </div>
     </div>
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <strong>Whoops!</strong> There were some problems with your input.<br><br>
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
     <form action="{{ route('posts.store') }}" method="POST">
         @csrf
         <div class="row">
@@ -44,15 +29,17 @@
                 </div>
             </div>
             <div class="col-md-8">
-                <strong>Tags:</strong>
-                <div><input type="checkbox" name="tag[]" value="C">
+                <div class="form-group">
+                    <strong>Tags:</strong>
+                    <div><input type="checkbox" name="tag[]" value="C">
                     <label for="C">C</label></div>
-                <div><input type="checkbox" name="tag[]" value="C++">
+                    <div><input type="checkbox" name="tag[]" value="C++">
                     <label for="C++">C++</label></div>
-                <div><input type="checkbox" name="tag[]" value="Python">
+                    <div><input type="checkbox" name="tag[]" value="Python">
                     <label for="Python">Python</label></div>
-                <div><input type="checkbox" name="tag[]" value="PHP">
+                    <div><input type="checkbox" name="tag[]" value="PHP">
                     <label for="PHP">PHP</label></div>
+                </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12 text-center">
                 <button type="submit" class="btn btn-primary">Submit</button>

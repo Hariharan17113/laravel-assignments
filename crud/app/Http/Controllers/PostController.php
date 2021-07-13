@@ -1,13 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Events\PostDeleted;
+use App\Events\PostCreated;
+use App\Events\PostUpdated;
 use App\Models\Comment;
 use App\Models\Post;
-use App\Models\Tag;
+use App\Models\tags;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Yajra\DataTables\DataTables;
+use Event;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 class PostController extends Controller
 {
     /**
@@ -15,29 +20,21 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request){
-        if ($request->ajax()) {
-            $post = Post::where('user_id', '=', Auth::id())->with('tags')->get();
-            return Datatables::of($post)
-                ->addIndexColumn()
-                ->addColumn('title', function ($post) {
-                    return $post->title;
-                })
-                ->addColumn('description', function ($post) {
-                    return $post->description;
-                })
-                ->addColumn('tags', function ($post) {
-                    foreach ($post->tags as $key => $tag) {
-                        $tags[$key] = $tag->tags;
-                    }
-                    return $tags;
-                })
-                ->addColumn('action', function ($post) {
-                    return '<a href="posts/' . $post->id . '" class="btn btn-xs btn-primary"><i class="glyphicon glyphicon-eye"></i> Show</a>';
-                })
-                ->toJson();
+    public function index()
+    {
+        if (Auth::check()) {
+            if (Auth::user()->hasRole('Admin')) {
+                $data = Post::latest()->with('Comment')->get();
+            } else {
+                $data = Post::where('user_id', '=', Auth::id())->with('tags')->get();
+            }
+            $comment = $data;
+            return view('posts.index', compact('data', 'comment'))
+                ->with('i', (request()->input('page', 1) - 1) * 5);
         }
-        return view('posts.index');
+        else{
+            return redirect()->route('home');
+        }
     }
 
     /**
@@ -69,15 +66,16 @@ class PostController extends Controller
         $post=Post::create(['user_id'=> $id,'title' => request('title'),'description' => request('description')]);
         $id = $post->id;
         Comment::create(['post_id'=> $id,'comments' => request('comments')]);
-        if (!sizeof(Tag::where('tags','C')->get())) {
-            Tag::create(['tags' => 'C']);
-            Tag::create(['tags' => 'C++']);
-            Tag::create(['tags' => 'Python']);
-            Tag::create(['tags' => 'PHP']);
+        if (!sizeof(tags::where('tags','C')->get())) {
+            tags::create(['tags' => 'C']);
+            tags::create(['tags' => 'C++']);
+            tags::create(['tags' => 'Python']);
+            tags::create(['tags' => 'PHP']);
         }
         foreach($tag as $key => $t){
-            Post::find($id)->tags()->attach(['tag_id' => Tag::where('tags',$t)->get('id')[0]["id"]]);
+            Post::find($id)->tags()->attach(['tag_id' => tags::where('tags',$t)->get('id')[0]["id"]]);
         }
+        Event::dispatch(new PostCreated($post));
         return redirect()->route('posts.index',compact('id'));
     }
 
@@ -97,11 +95,16 @@ class PostController extends Controller
             ->where('post_id',"=",$id)
             ->get();
         $post = DB::table('posts')->find($id);
-        $comment = Post::where('id',$id)->with('Comments')->first();
+        $comment = Post::where('id',$id)->with('Comment')->first();
         foreach ($users as $key => $user) {
             $tags[$key] = DB::table('tags')->where('id',$user->tag_id)->get('tags');
         }
-        return view('posts.show',compact('post','comment','tags'));
+        if (Auth::check()){
+            return view('posts.show',compact('post','comment','tags'));
+        }
+        else{
+            return view('posts.show',compact('post','comment'));
+        }
     }
 
     /**
@@ -129,14 +132,18 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'required',
+            'comments' => 'required',
         ]);
+        $tag=$request->input('tag');
         $post->update($request->all());
         $id=$post->id;
-        $tag=$request->input('tag');
+        Comments::where('post_id', $id)
+            ->update(['comments' => request('comments')]);
         Post::find($id)->tags()->detach();
         foreach($tag as $key => $t){
-            Post::find($id)->tags()->attach(['tag_id' => Tag::where('tags',$t)->get('id')[0]["id"]]);
+            Post::find($id)->tags()->attach(['tag_id' => tags::where('tags',$t)->get('id')[0]["id"]]);
         }
+        Event::dispatch(new PostUpdated($post));
         return redirect()->route('posts.show',$id)
             ->with('success','Post created successfully.');
     }
@@ -149,6 +156,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        Event::dispatch(new PostDeleted($post));
         $post->delete();
         return redirect()->route('posts.index')
             ->with('success','Post deleted successfully');

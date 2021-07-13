@@ -2,7 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\PostController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\NonAuthController;
+use \App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,14 +20,19 @@ use App\Http\Controllers\CommentController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
+
 Route::group(['middleware' => ['auth']], function() {
-    Route::resource('posts', PostController::class);
+    Route::resource('roles', RoleController::class);
+    Route::resource('users', UserController::class);
     Route::post('/comments/{id}', [CommentController::class, 'store'])->name('comments.store');
-    Route::put('/comments/{id}', [CommentController::class, 'update'])->name('comments.update');
-    Route::get('/comments/{id}', [CommentController::class, 'edit'])->name('comments.edit');
     Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
 });
-Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::resource('posts',PostController::class);
+Route::get('/show/{name}',[NonAuthController::class,'index'])->name('show');
+Route::post('search',[NonAuthController::class,'search'])->name('search');
+Route::post('/store',[NonAuthController::class,'store'])->name('store');
+Auth::routes();
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('daily/{type}',[NonAuthController::class,'daily'])->name('daily');

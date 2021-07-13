@@ -1,7 +1,11 @@
 <?php
 
 namespace App\Providers;
-
+use App\Events\PostEdited;
+use App\Listeners\SendPostEditNotification;
+use App\Mail\PostCreated;
+use App\Mail\PostDeleted;
+use App\Mail\PostUpdated;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,6 +22,18 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        'App\Events\PostCreated' => [
+            'App\Listeners\SendPostCreateMail',
+            'App\Listeners\SendPostCreateMarkdown',
+        ],
+        'App\Events\PostUpdated' => [
+            'App\Listeners\SendPostUpdateMail',
+            'App\Listeners\SendPostUpdateMarkdown',
+        ],
+        'App\Events\PostDeleted' => [
+            'App\Listeners\SendPostDeleteMail',
+            'App\Listeners\SendPostDeleteMarkdown',
+        ],
     ];
 
     /**
@@ -27,6 +43,8 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Event::listen(function (PostEdited $event) {
+            //
+        });
     }
 }
