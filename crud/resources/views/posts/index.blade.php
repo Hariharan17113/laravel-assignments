@@ -4,7 +4,7 @@
     <div class="row" >
         <div class="col-lg-12">
             <div class="pull-right">
-                <a href="{{ route('posts.create') }}" title="Create New Post">Create posts</a>
+                <a href="{{ route('posts.create') }}" class="btn btn-success" title="Create New Post">Create posts</a>
             </div>
         </div>
     </div>
@@ -24,13 +24,13 @@
                 <td>{{ $value->comment[0]->comments }}</td>
                 <td>
                     <form method="POST">
-                        <a class="btn btn-success" href="{{ route('posts.show',$value->id) }}"></a>
+                        <a class="btn btn-info" href="{{ route('posts.show',$value->id) }}">Show</a>
                     </form>
                 </td>
             </tr>
         @endforeach
     </table>
-{{--    {!! $comment->links() !!}--}}
+    {!! $data->links() !!}
 @else
     <a href=" {{ route('home') }}">Login and continue</a>
 @endif

@@ -27,9 +27,9 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('users', UserController::class);
     Route::post('/comments/{id}', [CommentController::class, 'store'])->name('comments.store');
     Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy');
+    Route::resource('posts',PostController::class);
 });
 
-Route::resource('posts',PostController::class);
 Route::get('/show/{name}',[NonAuthController::class,'index'])->name('show');
 Route::post('search',[NonAuthController::class,'search'])->name('search');
 Route::post('/store',[NonAuthController::class,'store'])->name('store');

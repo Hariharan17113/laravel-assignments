@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -59,8 +60,6 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with('count_tags', $count_tags);
         });
-
-
-
+        Paginator::useBootstrap();
     }
 }

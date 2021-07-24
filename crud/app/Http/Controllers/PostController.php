@@ -24,9 +24,9 @@ class PostController extends Controller
     {
         if (Auth::check()) {
             if (Auth::user()->hasRole('Admin')) {
-                $data = Post::latest()->with('Comment')->get();
+                $data = Post::latest()->with('Comment')->paginate(5);
             } else {
-                $data = Post::where('user_id', '=', Auth::id())->with('tags')->get();
+                $data = Post::where('user_id', '=', Auth::id())->with('tags')->paginate(5);
             }
             $comment = $data;
             return view('posts.index', compact('data', 'comment'))
@@ -86,8 +86,9 @@ class PostController extends Controller
      * @param  Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id,Request $request)
     {
+//        dd($request->session());
         config(['app.timezone' => 'Asia/Kolkata']);
         $users= DB::table('post_tag')
             ->join('posts','posts.id',"=",'post_tag.post_id')

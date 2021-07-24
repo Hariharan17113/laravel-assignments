@@ -9,14 +9,15 @@ class tags extends Model
 {
     use HasFactory;
 
-    public function posts()
-    {
-        return $this->belongsTo(Post::class);
-
-    }
     protected $fillable = [
         'tags',
         'post_id',
         'tag_id',
     ];
+    public function posts()
+    {
+        return $this->belongsTo(Post::class);
+
+    }
+
 }
