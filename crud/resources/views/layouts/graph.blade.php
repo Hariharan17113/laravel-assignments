@@ -6,7 +6,7 @@
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script type="text/javascript">
     var datas =  <?php echo json_encode($datas) ?>;
-
+    var posts =  <?php echo json_encode($posts) ?>;
     Highcharts.chart('container', {
         title: {
             text: 'User Vs Timeline Chart'
@@ -16,7 +16,7 @@
         },
         yAxis: {
             title: {
-                text: 'Number of New Users'
+                text: 'Number of New Posts and Users'
             }
         },
         legend: {
@@ -32,6 +32,10 @@
         series: [{
             name: 'New Users',
             data: datas
+        },
+        {
+            name: 'New posts',
+            data: posts
         }],
         responsive: {
             rules: [{

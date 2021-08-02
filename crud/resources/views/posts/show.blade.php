@@ -31,29 +31,6 @@
             </div>
         </div>
     </div>
-    @if(Auth::check())
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            <div class="form-group">
-                <strong>Tags:</strong>
-                @foreach($tags as $key => $tag)
-                    {{ $tag[0]->tags }}
-                @endforeach
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-12 col-md-12">
-            @if(Auth::check())
-                <form action="{{ route('posts.destroy',$post->id) }}" method="POST">
-                    <a id="mediumButton" class="btn btn-primary" type="button" data-attr="{{ route('posts.edit', $post->id) }}" data-toggle="modal" data-target="#exampleModalLong">
-                        <i class="fas fa-edit  fa-lg"></i>
-                    </a>
-                    @csrf
-                    @method('DELETE')
-                    <button id="mediumButton" type="submit" class="btn btn-danger">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </form>
-            @endif
-        </div>
     <div class="col-md-12 form-group">
         <strong>Comments:</strong>
         @foreach($comment->Comment as $key => $c)
@@ -70,6 +47,15 @@
                     </li></div>
             </form>
         @endforeach
+    </div>
+    @if(Auth::check())
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="form-group">
+            <strong>Tags:</strong>
+            @foreach($tags as $key => $tag)
+                {{ $tag[0]->tags }}
+            @endforeach
+        </div>
     </div>
     <div class="card-footer col-md-12">
     <form action="{{route('comments.store',$post->id)}}" method="POST">
@@ -143,8 +129,15 @@
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
-                                            <strong>Comments:</strong>
-                                            <textarea name="comments" class="form-control" placeholder="Comments">{{ $comment->comment[0]->comments }}</textarea>
+                                            <strong>Tags:</strong>
+                                            <div><input type="checkbox" name="tag[]" value="C">
+                                                <label for="C">C</label></div>
+                                            <div><input type="checkbox" name="tag[]" value="C++">
+                                                <label for="C++">C++</label></div>
+                                            <div><input type="checkbox" name="tag[]" value="Python">
+                                                <label for="Python">Python</label></div>
+                                            <div><input type="checkbox" name="tag[]" value="PHP">
+                                                <label for="PHP">PHP</label></div>
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12 text-center">
@@ -157,6 +150,21 @@
                 </div>
             </div>
             <div>
+                @if(Auth::check())
+                    <form action="{{ route('posts.destroy',$post->id) }}" method="POST">
+                        <a id="mediumButton" class="btn btn-primary" type="button" data-attr="{{ route('posts.edit', $post->id) }}" data-toggle="modal" data-target="#exampleModalLong">
+                            <i class="fas fa-edit  fa-lg"></i>
+                        </a>
+                        @csrf
+                        @method('DELETE')
+                        <button id="mediumButton" type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                        {{--                        <button id="mediumButton" class="btn btn-primary" type="button"  data-toggle="modal" data-target="#exampleModalLong">--}}
+                        {{--                            <i class="fas fa-edit"></i>--}}
+                        {{--                        </button>--}}
+                    </form>
+                @endif
             </div>
             <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

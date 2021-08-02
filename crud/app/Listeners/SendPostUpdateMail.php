@@ -3,13 +3,17 @@
 namespace App\Listeners;
 
 use App\Events\PostUpdated;
+use App\Models\User;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
-class SendPostUpdateMail
+class SendPostUpdateMail implements ShouldQueue
 {
+    use Queueable,InteractsWithQueue;
+
     /**
      * Create the event listener.
      *
@@ -28,10 +32,10 @@ class SendPostUpdateMail
      */
     public function handle(PostUpdated $event)
     {
-        $user = Auth::user()->toArray();
+        $user = User::find($event->post->user_id);
         Mail::send('mail.post.updated', compact('user'), function($message) use ($user) {
-            $message->to($user['email']);
-            $message->subject('Event Testing');
+            $message->to($user->email);
+            $message->subject('Post Updated');
         });
     }
 }

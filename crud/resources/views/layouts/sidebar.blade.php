@@ -78,11 +78,11 @@
                     </li>
                 @endif
 
-                @if (Route::has('register'))
-                    <li class="ml-4 text-md text-gray-700 ">
-                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                    </li>
-                @endif
+{{--                @if (Route::has('register'))--}}
+{{--                    <li class="ml-4 text-md text-gray-700 ">--}}
+{{--                        <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>--}}
+{{--                    </li>--}}
+{{--                @endif--}}
             @else
                 <li class="nav-item dropdown ml-4 text-md text-gray-700">
                     <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -120,7 +120,7 @@
         <h4>POSTS</h4>
         @foreach ($posts as $key => $value)
             <div class="row">
-                <a href="{{ route('posts.show', $value->id) }}">
+                <a href="{{ route('nonAuth.show', $value->id) }}">
                     @foreach($users as $key => $user)
                         @if($user->id == $value->user_id)
                             {{ $user->name }}
@@ -134,12 +134,12 @@
     <div style="padding-left:20px;">
         <h4 style="padding-left: 10px">TRENDING TAGS</h4>
         @foreach($count_tags as $index => $tags)
-            <?php $name = $count_tags[$index]['name']; ?>
-            <a href="{{ route('show',compact('name')) }}">
+            <?php $id = $tags->id; ?>
+            <a href="{{ route('nonAuth.index',compact('id')) }}">
                 <button type="button" class="btn btn-primary">
-                    {{ $count_tags[$index]['name'] }}
+                    {{ $tags->tags }}
                     <span style="margin-left: 10px;" class="badge badge-light">
-                            {{ $count_tags[$index]['count'] }}
+                            {{ $tags->posts_count }}
                         </span>
                 </button>
             </a>

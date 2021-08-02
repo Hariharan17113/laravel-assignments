@@ -1,11 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\App;
+
 class HomeController extends Controller
 {
     /**
@@ -25,23 +23,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $post = DB::table('posts')->select('*')
-            ->orderBy('id','desc')->get();
-        return view('home',compact('post'));
-    }
-
-    public function create()
-    {
-        return view('posts.create');
-    }
-    public function store(Request $request)
-    {
-        $data = array();
-        $data['title']= $request->get('title');
-        $data['description'] = $request->get('description');
-        $data['comments'] = $request->get('comment');
-        $post=DB::table('posts')->insert($data);
-        return redirect()->route('index');
         return view('home');
     }
+
 }

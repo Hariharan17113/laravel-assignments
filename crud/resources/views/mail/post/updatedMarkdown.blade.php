@@ -1,13 +1,14 @@
 @component('mail::message')
-# Introduction
+# Post Updated!!
 Hi {{ $user->name }},
 
 Your Post is updated successfully!!
 
-@component('mail::button', ['url' => '127.0.0.1:8000'])
-    Button Text
+@component('mail::button', ['url' => 'https://mail.google.com/mail/u/0/#inbox'])
+    Back to Inbox
 @endcomponent
 
-Thank you for using laravel,<br>
-{{ config('app.name') }}
+Thank you,<br>
+Regards,<br>
+Hariharan - Admin
 @endcomponent

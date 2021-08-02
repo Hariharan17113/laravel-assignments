@@ -62,4 +62,19 @@ class User extends Authenticatable
         }
         return $datas;
     }
+    public static function graphByYear(){
+        $users = static::select(DB::raw("COUNT(*) as count"))
+            ->whereYear('created_at',date('Y'))
+            ->groupBy(DB::raw("Year(created_at)"))
+            ->pluck('count');
+        $years = static::select(DB::raw("Year(created_at) as year"))
+            ->whereYear('created_at',date('Y'))
+            ->groupBy(DB::raw("Year(created_at)"))
+            ->pluck('year');
+        $datas = array(0,0,0,0,0,0,0);
+        foreach ($years as $key => $year) {
+            $datas[$year-2017] = $users[$key];
+        }
+        return $datas;
+    }
 }

@@ -11,8 +11,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Event;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 class PostController extends Controller
 {
     /**
@@ -24,12 +22,11 @@ class PostController extends Controller
     {
         if (Auth::check()) {
             if (Auth::user()->hasRole('Admin')) {
-                $data = Post::latest()->with('Comment')->paginate(5);
+                $data = Post::latest()->with('tags')->paginate(5);
             } else {
-                $data = Post::where('user_id', '=', Auth::id())->with('tags')->paginate(5);
+                $data = Post::where('user_id', '=', Auth::id())->with('tags')->latest()->paginate(5);
             }
-            $comment = $data;
-            return view('posts.index', compact('data', 'comment'))
+            return view('posts.index', compact('data'))
                 ->with('i', (request()->input('page', 1) - 1) * 5);
         }
         else{
@@ -86,9 +83,8 @@ class PostController extends Controller
      * @param  Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function show($id,Request $request)
+    public function show($id)
     {
-//        dd($request->session());
         config(['app.timezone' => 'Asia/Kolkata']);
         $users= DB::table('post_tag')
             ->join('posts','posts.id',"=",'post_tag.post_id')
@@ -128,18 +124,15 @@ class PostController extends Controller
      * @param Comment $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post, Comment $comment)
+    public function update(Request $request, Post $post)
     {
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'comments' => 'required',
         ]);
-        $tag=$request->input('tag');
         $post->update($request->all());
         $id=$post->id;
-        Comments::where('post_id', $id)
-            ->update(['comments' => request('comments')]);
+        $tag=$request->input('tag');
         Post::find($id)->tags()->detach();
         foreach($tag as $key => $t){
             Post::find($id)->tags()->attach(['tag_id' => tags::where('tags',$t)->get('id')[0]["id"]]);

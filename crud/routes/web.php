@@ -30,7 +30,8 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('posts',PostController::class);
 });
 
-Route::get('/show/{name}',[NonAuthController::class,'index'])->name('show');
+Route::get('/index/{id}',[NonAuthController::class,'index'])->name('nonAuth.index');
+Route::get('/show/{id}',[NonAuthController::class,'show'])->name('nonAuth.show');
 Route::post('search',[NonAuthController::class,'search'])->name('search');
 Route::post('/store',[NonAuthController::class,'store'])->name('store');
 Auth::routes();

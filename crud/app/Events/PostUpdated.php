@@ -13,7 +13,7 @@ use Illuminate\Queue\SerializesModels;
 class PostUpdated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-
+    public $post;
     /**
      * Create a new event instance.
      *

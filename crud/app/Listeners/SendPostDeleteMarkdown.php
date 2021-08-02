@@ -3,13 +3,17 @@
 namespace App\Listeners;
 
 use App\Events\PostDeleted;
+use App\Models\User;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
-class SendPostDeleteMarkdown
+class SendPostDeleteMarkdown implements ShouldQueue
 {
+    use Queueable,InteractsWithQueue;
+
     /**
      * Create the event listener.
      *
@@ -28,7 +32,7 @@ class SendPostDeleteMarkdown
      */
     public function handle(PostDeleted $event)
     {
-        $user=Auth::user();
-        Mail::to(Auth::user()->email)->send(new \App\Mail\PostDeleted($event->post, $user));
+        $user = User::find($event->post->user_id);
+        Mail::to($user->email)->send(new \App\Mail\PostDeleted($event->post, $user));
     }
 }

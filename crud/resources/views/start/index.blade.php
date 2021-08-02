@@ -2,7 +2,7 @@
 @section('content')
     <table class="table table-striped table-responsive-lg table-hover" >
         <div class="pull-right">
-            <a class="btn btn-primary" href=" {{ route('welcome') }}">
+            <a class="btn btn-primary" href="{{ route('welcome') }}">
                 <i class="fas fa-home"></i>
             </a>
         </div>

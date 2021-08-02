@@ -6,18 +6,18 @@
 
 <script src="https://code.highcharts.com/highcharts.js"></script>
 <script type="text/javascript">
+    var datas =  <?php echo json_encode($datas) ?>;
     var posts =  <?php echo json_encode($posts) ?>;
-
     Highcharts.chart('graph2', {
         title: {
             text: 'Post Vs Timeline Chart'
         },
         xAxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            categories: [2017,2018,2019,2020,2021,2022,2023]
         },
         yAxis: {
             title: {
-                text: 'Number of New Posts'
+                text: 'Number of New Posts and Users'
             }
         },
         legend: {
@@ -30,10 +30,16 @@
                 allowPointSelect: true
             }
         },
-        series: [{
-            name: 'New Posts',
-            data: posts
-        }],
+        series: [
+            {
+            name: 'New Users',
+            data: datas
+            },
+            {
+                name: 'New posts',
+                data: posts
+            }],
+
         responsive: {
             rules: [{
                 condition: {

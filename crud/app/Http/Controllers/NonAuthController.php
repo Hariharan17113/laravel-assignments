@@ -7,6 +7,7 @@ use App\Models\NonAuthUsers;
 use App\Models\Post;
 use App\Models\tags;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PostsExport;
@@ -14,11 +15,11 @@ use PDF;
 
 class NonAuthController extends Controller
 {
-    public function index($name){
+    public function index($id){
         $posts= DB::table('post_tag')
-            ->join('posts','posts.id',"=",'post_tag.post_id')
             ->join('tags','tags.id',"=",'post_tag.tag_id')
-            ->where('tags',"=",$name)
+            ->join('posts','posts.id',"=",'post_tag.post_id')
+            ->where('tag_id',"=",$id)
             ->get();
         return view('start.index',compact('posts'));
     }
@@ -35,6 +36,14 @@ class NonAuthController extends Controller
             return view('start.search', compact('posts','tags'));
         }
     }
+    public function show($id)
+    {
+        config(['app.timezone' => 'Asia/Kolkata']);
+        $post = DB::table('posts')->find($id);
+        $comment = Post::where('id',$id)->with('Comment')->first();
+        return view('posts.show',compact('post','comment'));
+    }
+
     public function store(Request $request){
         $name = $request->input('name');
         $email = $request->input('email');
