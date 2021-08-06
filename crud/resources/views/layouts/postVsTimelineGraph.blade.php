@@ -10,7 +10,7 @@
     var posts =  <?php echo json_encode($posts) ?>;
     Highcharts.chart('graph2', {
         title: {
-            text: 'Post Vs Timeline Chart'
+            text: 'User Vs Post Vs Timeline Chart'
         },
         xAxis: {
             categories: [2017,2018,2019,2020,2021,2022,2023]

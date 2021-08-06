@@ -3,11 +3,13 @@
     <div class="row" >
         <div class="col-lg-12">
             <div class="pull-right">
-                <a href="{{ route('posts.create') }}" class="btn btn-success" title="Create New Post">Create posts</a>
+                <p>
+                    <a href="{{ route('posts.create') }}" class="btn btn-success" title="Create New Post">Create New posts</a>
+                </p>
             </div>
         </div>
     </div>
-    <table style="margin-top: 10px;" class="table table-striped table-responsive-lg table-hover" >
+    <table class="table table-striped table-responsive-lg table-hover" >
         <tr>
             <th>Id</th>
             <th>Title</th>

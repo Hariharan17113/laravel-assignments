@@ -9,7 +9,7 @@
     var posts =  <?php echo json_encode($posts) ?>;
     Highcharts.chart('container', {
         title: {
-            text: 'User Vs Timeline Chart'
+            text: 'User Vs Post Vs Timeline Chart'
         },
         xAxis: {
             categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']

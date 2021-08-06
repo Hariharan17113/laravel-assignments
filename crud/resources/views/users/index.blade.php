@@ -1,27 +1,20 @@
 @extends('layouts.app')
-
-
 @section('content')
     <div class="row">
-        <div class="col-lg-12 margin-tb">
-            <div class="pull-left">
-                <h2>Users Management</h2>
-            </div>
-            <div class="pull-right">
-                <a class="btn btn-success" href="{{ route('users.create') }}"> Create New User</a>
+        <div class="col-lg-12">
+            <div class="float-right">
+                <p>
+                    <a class="btn btn-success" href="{{ route('users.create') }}"> Create New User</a>
+                </p>
             </div>
         </div>
-    </div>
-
-
+     </div>
     @if ($message = Session::get('success'))
         <div class="alert alert-success">
             <p>{{ $message }}</p>
         </div>
     @endif
-
-
-    <table class="table table-bordered">
+    <table style="text-align: center" class="table table-striped table-responsive-lg table-hoverd">
         <tr>
             <th>No</th>
             <th>Name</th>

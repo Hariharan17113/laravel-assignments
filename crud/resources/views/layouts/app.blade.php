@@ -14,6 +14,11 @@
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <style>
+        #afterPressingEdit{
+            display: none;
+        }
+    </style>
 </head>
 <body>
 <div id="app">
@@ -54,8 +59,6 @@
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
-
-
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                     @csrf
                                 </form>
@@ -66,7 +69,6 @@
             </div>
         </div>
     </nav>
-
 
     <main class="py-4">
         <div class="container">

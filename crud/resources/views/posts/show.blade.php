@@ -12,7 +12,7 @@
                 @else
                 {{ route('welcome') }}
                 @endif">
-                    <i class="fas fa-home"></i>
+                    Back
                 </a>
             </div>
         </div>
@@ -31,6 +31,11 @@
             </div>
         </div>
     </div>
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
+        </div>
+    @endif
     <div class="col-md-12 form-group">
         <strong>Comments:</strong>
         @foreach($comment->Comment as $key => $c)
@@ -57,8 +62,20 @@
             @endforeach
         </div>
     </div>
+    <div class="col-md-12 form-group">
+        <form action="{{ route('posts.destroy',$post->id) }}" method="POST">
+            <a id="mediumButton" class="btn btn-primary" data-attr="{{ route('posts.edit', $post->id) }}" data-toggle="modal" data-target="#exampleModalLong">
+                Edit
+            </a>
+            @csrf
+            @method('DELETE')
+            <button id="mediumButton" type="submit" class="btn btn-danger">
+                Delete
+            </button>
+        </form>
+    </div>
     <div class="card-footer col-md-12">
-    <form action="{{route('comments.store',$post->id)}}" method="POST">
+    <form action="{{ route('comments.store',$post->id) }}" method="POST">
         @csrf
         <div class="col-md-8 form-group">
             <strong>Add comments</strong>
@@ -148,23 +165,6 @@
                         </form>
                     </div>
                 </div>
-            </div>
-            <div>
-                @if(Auth::check())
-                    <form action="{{ route('posts.destroy',$post->id) }}" method="POST">
-                        <a id="mediumButton" class="btn btn-primary" type="button" data-attr="{{ route('posts.edit', $post->id) }}" data-toggle="modal" data-target="#exampleModalLong">
-                            <i class="fas fa-edit  fa-lg"></i>
-                        </a>
-                        @csrf
-                        @method('DELETE')
-                        <button id="mediumButton" type="submit" class="btn btn-danger">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                        {{--                        <button id="mediumButton" class="btn btn-primary" type="button"  data-toggle="modal" data-target="#exampleModalLong">--}}
-                        {{--                            <i class="fas fa-edit"></i>--}}
-                        {{--                        </button>--}}
-                    </form>
-                @endif
             </div>
             <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

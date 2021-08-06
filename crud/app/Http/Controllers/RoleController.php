@@ -32,8 +32,17 @@ class RoleController extends Controller
     public function index(Request $request)
     {
         $roles = Role::latest()->paginate(5);
-        return view('roles.index',compact('roles'))
-            ->with('i', ($request->input('page', 1) - 1) * 5);
+        $permission = Permission::get();
+        $roleAndPermissions = [];
+        foreach ($roles as $role) {
+            $distinctRolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $role->id)
+                ->pluck('role_has_permissions.permission_id')
+                ->all();
+            $rolePermissions = array('role_id' => $role->id ,'permission_id' => $distinctRolePermissions );
+            array_push($roleAndPermissions,$rolePermissions);
+        }
+        $roleAndPermissions=collect($roleAndPermissions)->toArray();
+        return view('roles.index', compact('roles','permission','roleAndPermissions'));
     }
 
     /**
@@ -95,7 +104,6 @@ class RoleController extends Controller
         $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
             ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
             ->all();
-
         return view('roles.edit',compact('role','permission','rolePermissions'));
     }
 
@@ -109,7 +117,6 @@ class RoleController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            'name' => 'required',
             'permission' => 'required',
         ]);
 

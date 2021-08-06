@@ -1,9 +1,9 @@
 @extends('posts.layout')
 @section('content')
     <table class="table table-striped table-responsive-lg table-hover" >
-        <div class="pull-right">
+        <div style="margin-bottom: 10px;" class="pull-right">
             <a class="btn btn-primary" href="{{ route('welcome') }}">
-                <i class="fas fa-home"></i>
+            Home
             </a>
         </div>
         <tr>

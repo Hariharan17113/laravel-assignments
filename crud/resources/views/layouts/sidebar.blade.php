@@ -140,7 +140,7 @@
                     {{ $tags->tags }}
                     <span style="margin-left: 10px;" class="badge badge-light">
                             {{ $tags->posts_count }}
-                        </span>
+                    </span>
                 </button>
             </a>
         @endforeach

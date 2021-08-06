@@ -129,6 +129,7 @@ class PostController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'required',
+            'tags' => 'required',
         ]);
         $post->update($request->all());
         $id=$post->id;
