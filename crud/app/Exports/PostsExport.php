@@ -11,8 +11,8 @@ class PostsExport implements FromView
 {
     public function view(): View
     {
-        $today_date = Carbon::today();
+        $today = Carbon::today();
         $posts = Post::with('user')->get();
-        return view('mail.fileExcel', compact('posts', 'today_date'));
+        return view('mail.fileExcel', compact('posts', 'today'));
     }
 }

@@ -5,7 +5,7 @@ use \App\Http\Controllers\PostController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
-use App\Http\Controllers\NonAuthController;
+use App\Http\Controllers\SidebarController;
 use \App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
@@ -30,10 +30,10 @@ Route::group(['middleware' => ['auth']], function() {
     Route::resource('posts',PostController::class);
 });
 
-Route::get('/index/{id}',[NonAuthController::class,'index'])->name('nonAuth.index');
-Route::get('/show/{id}',[NonAuthController::class,'show'])->name('nonAuth.show');
-Route::post('search',[NonAuthController::class,'search'])->name('search');
-Route::post('/store',[NonAuthController::class,'store'])->name('store');
+Route::get('/index/{id}',[SidebarController::class,'index'])->name('nonAuth.index');
+Route::get('/show/{id}',[SidebarController::class,'show'])->name('nonAuth.show');
+Route::post('search',[SidebarController::class,'search'])->name('search');
+Route::post('/store',[SidebarController::class,'store'])->name('store');
 Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('daily/{type}',[NonAuthController::class,'daily'])->name('daily');
+Route::get('daily/{type}',[SidebarController::class,'daily'])->name('daily');

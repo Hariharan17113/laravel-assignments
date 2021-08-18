@@ -13,7 +13,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PostsExport;
 use PDF;
 
-class NonAuthController extends Controller
+class SidebarController extends Controller
 {
     public function index($id){
         $posts= DB::table('post_tag')
@@ -57,9 +57,5 @@ class NonAuthController extends Controller
         $comments = $request->input('comments');
         NonAuthComments::create(['non_auth_user_id' => $user->id, 'comments' => $comments]);
         return view('welcome');
-    }
-    public function daily($type)
-    {
-        return Excel::download(new PostsExport, 'posts.' . $type);
     }
 }

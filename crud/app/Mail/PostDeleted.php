@@ -30,6 +30,6 @@ class PostDeleted extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mail.post.deletedMarkdown');
+        return $this->markdown('mail.post.deleted_markdown');
     }
 }

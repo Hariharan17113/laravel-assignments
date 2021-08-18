@@ -9,14 +9,14 @@
     </thead>
     <tbody>
     @forelse($posts as $post)
-{{--        @if($post->created_at >= $today_date)--}}
+        @if($post->created_at >= $today)
             <tr>
                 <td>{{ $post->user->name }}</td>
                 <td>{{ $post->id }}</td>
                 <td>{{ $post->title }}</td>
                 <td>{{ $post->description }}</td>
             </tr>
-{{--        @endif--}}
+        @endif
     @empty
         <p>No posts</p>
     @endforelse

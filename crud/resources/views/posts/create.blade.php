@@ -31,13 +31,13 @@
             <div class="col-md-8">
                 <div class="form-group">
                     <strong>Tags:</strong>
-                    <div><input type="checkbox" name="tag[]" value="C">
+                    <div><input type="checkbox" name="tag[]" value="1">
                     <label for="C">C</label></div>
-                    <div><input type="checkbox" name="tag[]" value="C++">
+                    <div><input type="checkbox" name="tag[]" value="2">
                     <label for="C++">C++</label></div>
-                    <div><input type="checkbox" name="tag[]" value="Python">
+                    <div><input type="checkbox" name="tag[]" value="3">
                     <label for="Python">Python</label></div>
-                    <div><input type="checkbox" name="tag[]" value="PHP">
+                    <div><input type="checkbox" name="tag[]" value="4">
                     <label for="PHP">PHP</label></div>
                 </div>
             </div>

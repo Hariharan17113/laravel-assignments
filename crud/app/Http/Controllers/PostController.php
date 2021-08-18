@@ -20,18 +20,14 @@ class PostController extends Controller
      */
     public function index()
     {
-        if (Auth::check()) {
-            if (Auth::user()->hasRole('Admin')) {
-                $data = Post::latest()->with('tags')->paginate(5);
-            } else {
-                $data = Post::where('user_id', '=', Auth::id())->with('tags')->latest()->paginate(5);
-            }
-            return view('posts.index', compact('data'))
-                ->with('i', (request()->input('page', 1) - 1) * 5);
+        if (Auth::user()->hasRole('Admin')) {
+            $data = Post::latest()->with('tags')->paginate(5);
         }
-        else{
-            return redirect()->route('home');
+        else {
+            $data = Post::where('user_id', '=', Auth::id())->with('tags')->latest()->paginate(5);
         }
+        return view('posts.index', compact('data'))
+            ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
     /**
@@ -56,21 +52,15 @@ class PostController extends Controller
             'title' => 'required',
             'description' => 'required',
             'comments' => 'required',
-            'tag' => 'required',
+            'tag.*' => 'required|exists:tags,id',
         ]);
         $tag=$request->input('tag');
         $id=Auth::id();
         $post=Post::create(['user_id'=> $id,'title' => request('title'),'description' => request('description')]);
         $id = $post->id;
         Comment::create(['post_id'=> $id,'comments' => request('comments')]);
-        if (!sizeof(tags::where('tags','C')->get())) {
-            tags::create(['tags' => 'C']);
-            tags::create(['tags' => 'C++']);
-            tags::create(['tags' => 'Python']);
-            tags::create(['tags' => 'PHP']);
-        }
         foreach($tag as $key => $t){
-            Post::find($id)->tags()->attach(['tag_id' => tags::where('tags',$t)->get('id')[0]["id"]]);
+            Post::find($id)->tags()->attach(['tag_id' => $t]);
         }
         Event::dispatch(new PostCreated($post));
         return redirect()->route('posts.index',compact('id'));

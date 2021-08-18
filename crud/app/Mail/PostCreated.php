@@ -32,6 +32,6 @@ class PostCreated extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mail.post.createdMarkdown');
+        return $this->markdown('mail.post.created_markdown');
     }
 }

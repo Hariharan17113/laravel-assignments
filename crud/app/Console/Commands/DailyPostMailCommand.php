@@ -13,14 +13,14 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\dailyPostMail;
 use Maatwebsite\Excel\Facades\Excel;
 use PDF;
-class dailypostmailcommand extends Command
+class DailyPostMailCommand extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:dailypost';
+    protected $signature = 'command:daily-post';
 
     /**
      * The console command description.
@@ -47,7 +47,7 @@ class dailypostmailcommand extends Command
     public function handle()
     {
         $user = User::all();
-        $data["email"] = "hari01008@gmail.com";
+        $data["email"] = env('MAIL_USERNAME');
         $data["title"] = "Previous Day Post lists";
         $yesterday = Post::whereDate('created_at', Carbon::now()->addDay(-1))->get();
         $pdf = PDF::loadView('mail.fileView', compact('yesterday'));

@@ -30,6 +30,6 @@ class PostUpdated extends Mailable
      */
     public function build()
     {
-        return $this->markdown('mail.post.updatedMarkdown');
+        return $this->markdown('mail.post.updated_markdown');
     }
 }
